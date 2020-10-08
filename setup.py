@@ -18,7 +18,6 @@ setuptools.setup(
     description="Simple ATM Controller Example",
     long_description=README,
     long_description_content_type="text/markdown",
-    packages=['atm-controller'],
     install_requires=['scipy','numpy','matplotlib'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
