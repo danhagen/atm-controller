@@ -217,3 +217,24 @@ Return to Main Menu? ([Y]/N):
 ```
 
 To Exit, either select `N` from the `Return to Main Menu` prompt, or type `Exit` at any time. Lastly, any time an account is altered, when the user exits the program, their account information is updated in the (for now local) `TOTAL_ACCOUNTS` `dict`.
+
+
+### Testing `atm-controller`
+
+This package is tested via Travic CI and Coveralls. If you wish to run these tests yourself locally, you must first make sure that `pytest` is installed:
+
+```
+pip install -U pytest
+```
+
+Then you can test this program by navigating to the directory via command-line (see top of documentation) and running the following command:
+
+```
+pytest
+```
+
+Hope you enjoyed this project as much as I did! Thanks for taking the time to check it out! Feel free to reach out if you have any questions or comments.
+
+Thanks!
+
+- Dan
