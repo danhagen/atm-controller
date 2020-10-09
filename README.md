@@ -3,8 +3,8 @@
 <h3 align="center">Written by Daniel A. Hagen on 10/07/2020</h3>
 
 <p align="center">
-    <a href="https://travis-ci.com/danhagen/danpy">
-        <img src="https://travis-ci.com/danhagen/atm-controller.svg?branch=master" alt="Build Status"
+    <a href="https://travis-ci.com/danhagen/atm-controller">
+        <img src="https://travis-ci.com/danhagen/atm-controller.svg?branch=main" alt="Build Status"
     </a>
     <a href="https://www.python.org/dev/peps/pep-0008/">
         <img src="https://img.shields.io/badge/code%20style-pep8-green.svg" alt="PEP8">
