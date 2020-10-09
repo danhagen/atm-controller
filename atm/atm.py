@@ -56,7 +56,7 @@ class ATM:
                 break
             else:
                 validResponse=True
-                cardInserted = (cardInserted=="Y")
+                cardInserted = (cardInserted.capitalize()=="Y")
         return(cardInserted,exitProgram)
 
     def card_removed(self):

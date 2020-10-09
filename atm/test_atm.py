@@ -6,10 +6,14 @@
 import pytest
 import unittest
 import mock
+from unittest import mock
+from unittest import TestCase
 
-from .atm import *
+from atm import *
 
-class Test_is_number(unittest.TestCase):
+
+class Test_ATM(unittest.TestCase):
+
     def test_ATM__init__1(self):
         try:
             testATM = ATM()
@@ -64,6 +68,29 @@ class Test_is_number(unittest.TestCase):
             testATM.card_inserted,
             cardNumber=1111111111111111
         )
+
+    # def test_card_detected_Y(self):
+    #     testATM = ATM()
+    #     testATM.card_inserted()
+    #     original_raw_input = __builtins__.raw_input
+    #     __builtins__.raw_input = lambda _: 'y'
+    #     self.assertEqual(testATM.card_detected(), (True,False))
+    #     __builtins__.raw_input = original_raw_input
+
+    # @mock.patch('atm.input', create=True)
+    # def test_card_detected_Y(self, mocked_input):
+    #     mocked_input.side_effect = ['Y']
+    #     testATM = ATM()
+    #     testATM.card_inserted()
+    #     cardInserted,exitProgram = testATM.detect_card()
+    #     self.assertEqual(cardInserted,True)
+    #     self.assertEqual(exitProgram,False)
+
+    # def testNo(self):
+    #     original_raw_input = __builtins__.raw_input
+    #     __builtins__.raw_input = lambda _: 'no'
+    #     self.assertEqual(answerReturn(), 'you entered no')
+    #     __builtins__.raw_input = original_raw_input
 
     def test_card_removed_good(self):
         testATM = ATM()
