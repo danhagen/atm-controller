@@ -237,4 +237,4 @@ Hope you enjoyed this project as much as I did! Thanks for taking the time to ch
 
 Thanks!
 
-- Dan
+&#8211; Dan
