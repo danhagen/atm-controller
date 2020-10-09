@@ -13,8 +13,8 @@
     <a href="https://www.python.org/dev/peps/pep-0008/">
         <img src="https://img.shields.io/badge/code%20style-pep8-green.svg" alt="PEP8">
     </a>
-    <a href="https://coveralls.io/github/danhagen/atm-controller?branch=master&service=github">
-        <img src="https://coveralls.io/repos/github/danhagen/atm-controller/badge.svg?branch=master&service=github" alt="Coverage Status">
+    <a href="https://coveralls.io/github/danhagen/atm-controller?branch=main&service=github">
+        <img src="https://coveralls.io/repos/github/danhagen/atm-controller/badge.svg?branch=main&service=github" alt="Coverage Status">
     </a>
 </p>
 
