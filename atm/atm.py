@@ -170,7 +170,7 @@ class ATM:
                 validResponse=True
             elif menuChoice.capitalize()=="Exit":
                 exitProgram = True
-                yourATM.card_removed()
+                self.card_removed()
                 break
             elif menuChoice.capitalize()=="Menu":
                 backToMainMenu=True
@@ -214,7 +214,7 @@ class ATM:
                 validResponse=False
             elif depositAmount.capitalize()=="Exit":
                 exitProgram = True
-                yourATM.card_removed()
+                self.card_removed()
                 break
             elif depositAmount.capitalize()=="Menu":
                 backToMainMenu=True
@@ -289,7 +289,7 @@ class ATM:
                 if backToMainMenu.capitalize()=="N":
                     stayInMenu=False
                     exitProgram = True
-                    yourATM.card_removed()
+                    self.card_removed()
                     break;
 
                 else:
