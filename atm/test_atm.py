@@ -8,6 +8,8 @@ import unittest
 import mock
 from unittest import mock
 from unittest import TestCase
+import io
+import sys
 
 from atm import *
 
@@ -69,28 +71,50 @@ class Test_ATM(unittest.TestCase):
             cardNumber=1111111111111111
         )
 
-    # def test_card_detected_Y(self):
-    #     testATM = ATM()
-    #     testATM.card_inserted()
-    #     original_raw_input = __builtins__.raw_input
-    #     __builtins__.raw_input = lambda _: 'y'
-    #     self.assertEqual(testATM.card_detected(), (True,False))
-    #     __builtins__.raw_input = original_raw_input
+    @mock.patch('atm.input', create=True)
+    def test_detect_card_Y(self, mocked_input):
+        mocked_input.side_effect = ['Y']
+        testATM = ATM()
+        testATM.card_inserted()
+        cardInserted,exitProgram = testATM.detect_card()
+        self.assertEqual(cardInserted,True)
+        self.assertEqual(exitProgram,False)
 
-    # @mock.patch('atm.input', create=True)
-    # def test_card_detected_Y(self, mocked_input):
-    #     mocked_input.side_effect = ['Y']
-    #     testATM = ATM()
-    #     testATM.card_inserted()
-    #     cardInserted,exitProgram = testATM.detect_card()
-    #     self.assertEqual(cardInserted,True)
-    #     self.assertEqual(exitProgram,False)
+    @mock.patch('atm.input', create=True)
+    def test_detect_card_N(self, mocked_input):
+        mocked_input.side_effect = ['N']
+        testATM = ATM()
+        testATM.card_inserted()
+        cardInserted,exitProgram = testATM.detect_card()
+        self.assertEqual(cardInserted,False)
+        self.assertEqual(exitProgram,False)
 
-    # def testNo(self):
-    #     original_raw_input = __builtins__.raw_input
-    #     __builtins__.raw_input = lambda _: 'no'
-    #     self.assertEqual(answerReturn(), 'you entered no')
-    #     __builtins__.raw_input = original_raw_input
+    @mock.patch('atm.input', create=True)
+    def test_detect_card_Exit_1(self, mocked_input):
+        mocked_input.side_effect = ['Exit']
+        testATM = ATM()
+        testATM.card_inserted()
+        cardInserted,exitProgram = testATM.detect_card()
+        self.assertEqual(cardInserted,"Exit")
+        self.assertEqual(exitProgram,True)
+
+    @mock.patch('atm.input', create=True)
+    def test_detect_card_Exit_2(self, mocked_input):
+        mocked_input.side_effect = ['']
+        testATM = ATM()
+        testATM.card_inserted()
+        cardInserted,exitProgram = testATM.detect_card()
+        self.assertEqual(cardInserted,"")
+        self.assertEqual(exitProgram,True)
+
+    @mock.patch('atm.input', create=True)
+    def test_detect_card_bad(self, mocked_input):
+        mocked_input.side_effect = ['bad','y']
+        testATM = ATM()
+        testATM.card_inserted()
+        cardInserted,exitProgram = testATM.detect_card()
+        self.assertEqual(cardInserted,True)
+        self.assertEqual(exitProgram,False)
 
     def test_card_removed_good(self):
         testATM = ATM()
@@ -104,6 +128,58 @@ class Test_ATM(unittest.TestCase):
         testATM = ATM()
         testATM.get_card_number("1111")
         assert testATM.cardNumber=="1111", "Error assigning cardNumber"
+
+    @mock.patch('atm.input', create=True)
+    def test_input_pin_good(self, mocked_input):
+        mocked_input.side_effect = ['1111']
+        testATM = ATM()
+        testATM.card_inserted()
+        exitProgram = testATM.input_pin()
+        self.assertEqual(testATM.PIN,"1111")
+        self.assertEqual(exitProgram,False)
+
+    @mock.patch('atm.input', create=True)
+    def test_input_pin_Exit(self, mocked_input):
+        mocked_input.side_effect = ['Exit']
+        testATM = ATM()
+        testATM.card_inserted()
+        exitProgram = testATM.input_pin()
+        self.assertEqual(testATM.PIN,"Exit")
+        self.assertEqual(exitProgram,True)
+        assert not hasattr(testATM,"cardNumber"), "ATM should not have a cardNumber"
+
+    @mock.patch('atm.input', create=True)
+    def test_input_pin_gibberish(self, mocked_input):
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput
+        mocked_input.side_effect = ['gibberish','9999']
+        testATM = ATM()
+        testATM.card_inserted()
+        exitProgram = testATM.input_pin()
+        self.assertEqual(
+            capturedOutput.getvalue(),
+            "Invalid PIN. Please enter Again.\n"
+        )
+
+    def test_is_pin_correct_bad_account(self):
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput
+        testATM = ATM()
+        testATM.card_inserted(cardNumber="1111-1111-1111-1111")
+        result = testATM.is_pin_correct(1)
+        self.assertEqual(
+            capturedOutput.getvalue(),
+            "Not a valid account number...\nHave a nice day!\n"
+        )
+
+    def test_is_pin_correct_too_many_attempts(self):
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput
+        testATM = ATM()
+        testATM.card_inserted()
+        testATM.PIN = "1111"
+        result = testATM.is_pin_correct(4)
+        self.assertEqual(result,False)
 
     def test_is_pin_correct_good(self):
         testATM = ATM()
@@ -120,6 +196,50 @@ class Test_ATM(unittest.TestCase):
         attempts = 0
         result = testATM.is_pin_correct(attempts)
         assert result == False, "Error with testing if PIN is incorrect."
+
+    @mock.patch('atm.input', create=True)
+    def test_choose_account_1(self, mocked_input):
+        mocked_input.side_effect = ['1']
+        testATM = ATM()
+        testATM.card_inserted()
+        testATM.PIN = "9999"
+        testATM.is_pin_correct(0)
+        selectedAccount,exitProgram = testATM.choose_an_account()
+        self.assertEqual(selectedAccount,"Savings Account")
+        self.assertEqual(exitProgram,False)
+
+    @mock.patch('atm.input', create=True)
+    def test_choose_account_2(self, mocked_input):
+        mocked_input.side_effect = ['2']
+        testATM = ATM()
+        testATM.card_inserted()
+        testATM.PIN = "9999"
+        testATM.is_pin_correct(0)
+        selectedAccount,exitProgram = testATM.choose_an_account()
+        self.assertEqual(selectedAccount,"Checking Account")
+        self.assertEqual(exitProgram,False)
+
+    @mock.patch('atm.input', create=True)
+    def test_choose_account_3(self, mocked_input):
+        mocked_input.side_effect = ['3']
+        testATM = ATM()
+        testATM.card_inserted()
+        testATM.PIN = "9999"
+        testATM.is_pin_correct(0)
+        selectedAccount,exitProgram = testATM.choose_an_account()
+        self.assertEqual(selectedAccount,"Carl's College Fund")
+        self.assertEqual(exitProgram,False)
+
+    @mock.patch('atm.input', create=True)
+    def test_choose_account_Exit(self, mocked_input):
+        mocked_input.side_effect = ['Exit']
+        testATM = ATM()
+        testATM.card_inserted()
+        testATM.PIN = "9999"
+        testATM.is_pin_correct(0)
+        selectedAccount,exitProgram = testATM.choose_an_account()
+        self.assertEqual(selectedAccount,None)
+        self.assertEqual(exitProgram,True)
 
     def test_return_balance_good(self):
         testATM = ATM()
