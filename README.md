@@ -1,3 +1,7 @@
+<p align=center>
+    <img src="https://www.pinclipart.com/picdir/big/390-3905072_atm-png-graphic-design-clipart.png">
+</p>
+</br>
 <h1 align="center"> ATM Controller</h1>
 <h2 align="center">A simple controller for a hypothetical ATM machine.</h2>
 <h3 align="center">Written by Daniel A. Hagen on 10/07/2020</h3>
