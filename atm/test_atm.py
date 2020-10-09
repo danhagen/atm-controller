@@ -7,7 +7,7 @@ import pytest
 import unittest
 import mock
 
-from atm import *
+from .atm import *
 
 class Test_is_number(unittest.TestCase):
     def test_ATM__init__1(self):
