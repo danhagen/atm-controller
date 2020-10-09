@@ -14,5 +14,5 @@ script:
 after_success:
   - pip install coveralls
   - pip install pytest-cov
-  - py.test --cov=atm-conmtroller
+  - py.test --cov=atm-controller
   - coveralls
